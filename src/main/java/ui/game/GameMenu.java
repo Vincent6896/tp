@@ -39,6 +39,57 @@ public class GameMenu extends Menu {
         this.parser = parser;
     }
 
+    /**
+     * Displays the welcome message.
+     */
+    private void welcome() {
+        System.out.println(Strings.GAME_WELCOME_MESSAGE);
+        System.out.println();
+    }
+
+    /**
+     * Displays the prompt of the menu.
+     */
+    private void prompt() {
+        System.out.print(Strings.GAME_PROMPT);
+        System.out.flush();
+    }
+
+    /**
+     * Displays the game history of this player.
+     */
+    private void showRecord() {
+        System.out.println(Strings.GAME_RECORD_MESSAGE);
+        System.out.println(Strings.DIVIDER);
+        Player.showEasyGameRecord();
+        System.out.println(Strings.DIVIDER);
+        Player.showDifficultGameRecord();
+        System.out.println(Strings.DIVIDER);
+    }
+
+    /**
+     * Displays available commands and their corresponding details.
+     */
+    private void help() {
+        for (GameCommandType commandType : GameCommandType.values()) {
+            System.out.printf("%-12s%s\n", commandType.getCommand(), commandType.getInfo());
+        }
+        System.out.println();
+    }
+
+    /**
+     * The handler for command "exit". Does all necessary cleanups before the exit.
+     * Note that the exit does not happen here. It is done by the {@code return}
+     * statement under the {@link #enter()} method.
+     *
+     * @param promptToSave whether to prompt to save the current state or not
+     */
+    public void exit(boolean promptToSave) {
+        Storage.savePlayer();
+        System.out.println(Strings.MAIN_EXIT_MESSAGE);
+        System.out.println();
+    }
+
     @Override
     public void enter() {
         welcome();
@@ -101,56 +152,5 @@ public class GameMenu extends Menu {
         } catch (NoSuchElementException e) {
             exit(false);
         }
-    }
-
-    /**
-     * Displays the welcome message.
-     */
-    private void welcome() {
-        System.out.println(Strings.GAME_WELCOME_MESSAGE);
-        System.out.println();
-    }
-
-    /**
-     * Displays the prompt of the menu.
-     */
-    private void prompt() {
-        System.out.print(Strings.GAME_PROMPT);
-        System.out.flush();
-    }
-
-    /**
-     * Displays the game history of this player.
-     */
-    private void showRecord() {
-        System.out.println(Strings.GAME_RECORD_MESSAGE);
-        System.out.println(Strings.DIVIDER);
-        Player.showEasyGameRecord();
-        System.out.println(Strings.DIVIDER);
-        Player.showDifficultGameRecord();
-        System.out.println(Strings.DIVIDER);
-    }
-
-    /**
-     * Displays available commands and their corresponding details.
-     */
-    private void help() {
-        for (GameCommandType commandType : GameCommandType.values()) {
-            System.out.printf("%-12s%s\n", commandType.getCommand(), commandType.getInfo());
-        }
-        System.out.println();
-    }
-
-    /**
-     * The handler for command "exit". Does all necessary cleanups before the exit.
-     * Note that the exit does not happen here. It is done by the {@code return}
-     * statement under the {@link #enter()} method.
-     *
-     * @param promptToSave whether to prompt to save the current state or not
-     */
-    public void exit(boolean promptToSave) {
-        Storage.savePlayer();
-        System.out.println(Strings.MAIN_EXIT_MESSAGE);
-        System.out.println();
     }
 }
